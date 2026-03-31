@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Content Pipeline — Warrior Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0d0f;
+    --surface: #141618;
+    --surface2: #1c1f22;
+    --border: #2a2d31;
+    --border2: #363a40;
+    --accent: #c8f135;
+    --accent2: #7fff6a;
+    --text: #e8eaed;
+    --text2: #9aa0aa;
+    --text3: #5c6370;
+    --danger: #ff5f5f;
+    --warn: #ffb347;
+    --info: #5bc4ff;
+    --purple: #b57bff;
+    --pink: #ff7bdb;
+
+    --status-research: #5bc4ff;
+    --status-scripting: #ffb347;
+    --status-recorded: #b57bff;
+    --status-editor: #ff7bdb;
+    --status-edited: #ff5f5f;
+    --status-uploaded: #c8f135;
+    --status-reviewed: #7fff6a;
+  }
+
+  /* ── LIGHT MODE ── */
+  body.light {
+    --bg: #f4f5f7;
+    --surface: #ffffff;
+    --surface2: #eef0f3;
+    --border: #dde0e6;
+    --border2: #c8ccd4;
+    --accent: #5a9e00;
+    --accent2: #3d7a00;
+    --text: #1a1d21;
+    --text2: #4a5260;
+    --text3: #9aa0aa;
+    --danger: #d93636;
+    --warn: #c47a00;
+    --info: #0070a8;
+    --purple: #7c3aed;
+    --pink: #c026a8;
+
+    --status-research: #0070a8;
+    --status-scripting: #c47a00;
+    --status-recorded: #7c3aed;
+    --status-editor: #c026a8;
+    --status-edited: #d93636;
+    --status-uploaded: #5a9e00;
+    --status-reviewed: #2d8a00;
+  }
+
+  body.light .logo-icon { color: #fff; background: var(--accent); }
+  body.light select option { background: #fff; color: #1a1d21; }
+  body.light thead th { background: #f0f2f5; }
+  body.light .btn-new { color: #fff; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: #0b0d0f;
+    font-size: 16px;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.3px;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .stats-pill {
+    display: flex;
+    gap: 2px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 11px;
+  }
+
+  .stat-item {
+    padding: 6px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+  }
+
+  .stat-item:not(:last-child) { border-right: 1px solid var(--border); }
+
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+  }
+
+  .stat-label { color: var(--text3); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .btn-new {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent);
+    color: #0b0d0f;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn-new:hover { opacity: 0.9; transform: translateY(-1px); }
+  .btn-new:active { transform: translateY(0); }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    flex-wrap: wrap;
+  }
+
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 200px;
+    max-width: 320px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 10px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px 8px 32px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .search-input::placeholder { color: var(--text3); }
+  .search-input:focus { border-color: var(--accent); }
+
+  .filter-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.03em;
+  }
+  .filter-btn:hover { border-color: var(--border2); color: var(--text); }
+  .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0b0d0f;
+    font-weight: 500;
+  }
+
+  .divider { width: 1px; height: 24px; background: var(--border); }
+
+  .view-toggle {
+    display: flex;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    overflow: hidden;
+  }
+
+  .view-btn {
+    padding: 6px 10px;
+    background: transparent;
+    border: none;
+    color: var(--text3);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.15s;
+  }
+  .view-btn.active { background: var(--border); color: var(--text); }
+
+  /* ── TABLE ── */
+  .table-wrap {
+    padding: 24px 32px;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12px;
+  }
+
+  thead th {
+    background: var(--surface);
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text3);
+    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    position: relative;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+  }
+  thead th:first-child { border-left: 1px solid var(--border); border-radius: 8px 0 0 0; }
+  thead th:last-child { border-right: 1px solid var(--border); border-radius: 0 8px 0 0; }
+  thead th:hover { color: var(--text); }
+  thead th .sort-icon { margin-left: 4px; opacity: 0.4; }
+  thead th.sorted .sort-icon { opacity: 1; color: var(--accent); }
+
+  tbody tr {
+    transition: background 0.1s;
+    animation: rowIn 0.3s ease both;
+  }
+  tbody tr:hover { background: var(--surface2); }
+  tbody tr:hover td { border-color: var(--border2); }
+
+  @keyframes rowIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  tbody td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--text2);
+    max-width: 220px;
+  }
+  tbody td:first-child { border-left: 1px solid var(--border); }
+  tbody td:last-child { border-right: 1px solid var(--border); }
+
+  tbody tr:last-child td:first-child { border-radius: 0 0 0 8px; }
+  tbody tr:last-child td:last-child { border-radius: 0 0 8px 0; }
+
+  .topic-cell {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text);
+    max-width: 280px;
+    min-width: 200px;
+  }
+
+  /* ── CUSTOM SELECTS ── */
+  .cell-select-wrap { position: relative; display: inline-block; }
+
+  .cell-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 4px 22px 4px 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    outline: none;
+    color: inherit;
+  }
+  .cell-select:hover, .cell-select:focus {
+    border-color: var(--border2);
+    background: var(--surface2);
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: 6px; top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 9px;
+    color: var(--text3);
+  }
+
+  /* Type badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-family: 'Syne', sans-serif;
+    white-space: nowrap;
+  }
+
+  .badge-long { background: rgba(91,196,255,0.12); color: var(--info); border: 1px solid rgba(91,196,255,0.25); }
+  .badge-short { background: rgba(255,123,219,0.12); color: var(--pink); border: 1px solid rgba(255,123,219,0.25); }
+  .badge-carasol { background: rgba(181,123,255,0.12); color: var(--purple); border: 1px solid rgba(181,123,255,0.25); }
+  .badge-empty { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
+
+  /* Platform */
+  .platform-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 10px;
+    color: var(--text2);
+    white-space: nowrap;
+  }
+
+  /* Status */
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .status-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+
+  .status-research   { background: rgba(91,196,255,0.1); color: var(--status-research); }
+  .status-scripting  { background: rgba(255,179,71,0.1); color: var(--status-scripting); }
+  .status-recorded   { background: rgba(181,123,255,0.1); color: var(--status-recorded); }
+  .status-senttoeditor { background: rgba(255,123,219,0.1); color: var(--status-editor); }
+  .status-edited     { background: rgba(255,95,95,0.1); color: var(--status-edited); }
+  .status-uploaded   { background: rgba(200,241,53,0.1); color: var(--status-uploaded); }
+  .status-reviewed   { background: rgba(127,255,106,0.1); color: var(--status-reviewed); }
+  .status-empty      { background: var(--surface2); color: var(--text3); }
+
+  /* Editable text cell */
+  .editable {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 4px 6px;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    outline: none;
+    width: 100%;
+    min-width: 160px;
+    transition: border-color 0.15s;
+    resize: none;
+    overflow: hidden;
+    display: block;
+    white-space: nowrap;
+  }
+  .editable:hover { border-color: var(--border); }
+  .editable:focus { border-color: var(--accent); background: var(--surface2); white-space: normal; }
+
+  .text-editable {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 4px 6px;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    outline: none;
+    width: 100%;
+    min-width: 80px;
+    transition: border-color 0.15s;
+  }
+  .text-editable:hover { border-color: var(--border); }
+  .text-editable:focus { border-color: var(--accent); background: var(--surface2); color: var(--text); }
+
+  /* Date input */
+  input[type="date"].text-editable {
+    color-scheme: dark;
+  }
+
+  /* Row actions */
+  .row-actions {
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  tr:hover .row-actions { opacity: 1; }
+
+  .row-btn {
+    width: 24px; height: 24px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text3);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    transition: all 0.12s;
+  }
+  .row-btn:hover { color: var(--danger); border-color: var(--danger); background: rgba(255,95,95,0.08); }
+  .row-btn.dup:hover { color: var(--accent); border-color: var(--accent); background: rgba(200,241,53,0.08); }
+
+  /* Empty state */
+  .empty-row td {
+    text-align: center;
+    padding: 60px;
+    color: var(--text3);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    border-radius: 0 0 8px 8px;
+    font-size: 13px;
+  }
+
+  /* Add row btn */
+  .add-row-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 8px;
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: var(--text3);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    width: 100%;
+  }
+  .add-row-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,241,53,0.04); }
+
+  /* KANBAN ── */
+  .kanban-board {
+    display: flex;
+    gap: 16px;
+    padding: 24px 32px;
+    overflow-x: auto;
+    align-items: flex-start;
+  }
+
+  .kanban-col {
+    min-width: 220px;
+    max-width: 220px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .kanban-header {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .kanban-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .kanban-count {
+    font-size: 10px;
+    color: var(--text3);
+    background: var(--surface2);
+    border-radius: 4px;
+    padding: 2px 6px;
+  }
+
+  .kanban-cards {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 60px;
+  }
+
+  .kanban-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    animation: rowIn 0.25s ease both;
+  }
+  .kanban-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+
+  .kanban-card-topic {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--text);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .kanban-card-meta {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    width: min(560px, 90vw);
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: translateY(12px);
+    transition: transform 0.2s;
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-close {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 28px; height: 28px;
+    color: var(--text3);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: all 0.12s;
+  }
+  .modal-close:hover { color: var(--danger); border-color: var(--danger); }
+
+  .modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .modal-field { display: flex; flex-direction: column; gap: 5px; }
+  .modal-field.full { grid-column: 1 / -1; }
+
+  .modal-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text3);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+  }
+
+  .modal-input, .modal-select, .modal-textarea {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .modal-input:focus, .modal-select:focus, .modal-textarea:focus { border-color: var(--accent); }
+  .modal-select { appearance: none; cursor: pointer; }
+  .modal-textarea { resize: vertical; min-height: 70px; }
+  input[type="date"].modal-input { color-scheme: dark; }
+
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn-cancel {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    color: var(--text2);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.12s;
+  }
+  .btn-cancel:hover { border-color: var(--border2); color: var(--text); }
+
+  .btn-save {
+    background: var(--accent);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 20px;
+    color: #0b0d0f;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: opacity 0.12s;
+  }
+  .btn-save:hover { opacity: 0.88; }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--accent);
+    z-index: 999;
+    transform: translateY(12px);
+    opacity: 0;
+    transition: all 0.2s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  .hidden { display: none; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border2); }
+
+  select option { background: #1c1f22; color: #e8eaed; }
+
+  /* ── THEME TOGGLE ── */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text2);
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--text); }
+
+  body.light .theme-toggle { background: #e8edf3; }
+
+  @media (max-width: 768px) {
+    header, .toolbar { padding: 12px 16px; }
+    .table-wrap { padding: 12px 16px; }
+    .kanban-board { padding: 12px 16px; }
+    .stats-pill { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">W</div>
+    <div>
+      <div class="logo-text">Content Pipeline</div>
+      <div class="logo-sub">WARRIOR STUDIO · TABLE1</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="stats-pills" id="statsBar"></div>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+      <span id="themeIcon">☀️</span>
+      <span id="themeLabel">Light Mode</span>
+    </button>
+    <button class="btn-new" onclick="openModal()">
+      <span>+</span> New Entry
+    </button>
+  </div>
+</header>
+
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input class="search-input" type="text" placeholder="Search topics..." id="searchInput" oninput="renderAll()">
+  </div>
+
+  <div class="filter-group" id="statusFilters">
+    <button class="filter-btn active" data-filter="ALL" onclick="setFilter(this,'ALL')">All</button>
+    <button class="filter-btn" data-filter="RESEARCH" onclick="setFilter(this,'RESEARCH')">Research</button>
+    <button class="filter-btn" data-filter="SCRIPTING" onclick="setFilter(this,'SCRIPTING')">Scripting</button>
+    <button class="filter-btn" data-filter="RECORDED" onclick="setFilter(this,'RECORDED')">Recorded</button>
+    <button class="filter-btn" data-filter="SENT TO EDITOR" onclick="setFilter(this,'SENT TO EDITOR')">To Editor</button>
+    <button class="filter-btn" data-filter="EDITED" onclick="setFilter(this,'EDITED')">Edited</button>
+    <button class="filter-btn" data-filter="UPLOADED" onclick="setFilter(this,'UPLOADED')">Uploaded</button>
+    <button class="filter-btn" data-filter="REVIEWED" onclick="setFilter(this,'REVIEWED')">Reviewed</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="view-toggle">
+    <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="Table View">☰</button>
+    <button class="view-btn" id="kanbanViewBtn" onclick="setView('kanban')" title="Kanban View">▦</button>
+  </div>
+</div>
+
+<!-- TABLE VIEW -->
+<div id="tableView" class="table-wrap">
+  <table id="mainTable">
+    <thead>
+      <tr>
+        <th onclick="sortBy('topic')">Topic <span class="sort-icon">↕</span></th>
+        <th onclick="sortBy('type')">Type <span class="sort-icon">↕</span></th>
+        <th onclick="sortBy('platform')">Platform <span class="sort-icon">↕</span></th>
+        <th onclick="sortBy('page')">Page <span class="sort-icon">↕</span></th>
+        <th>Collab</th>
+        <th>Description</th>
+        <th onclick="sortBy('status')">Status <span class="sort-icon">↕</span></th>
+        <th onclick="sortBy('uploadDate')">Upload Date <span class="sort-icon">↕</span></th>
+        <th>Note</th>
+        <th>Raw Footage</th>
+        <th>Final Video</th>
+        <th style="width:60px;"></th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+  <button class="add-row-btn" onclick="addRow()">+ Add Row</button>
+</div>
+
+<!-- KANBAN VIEW -->
+<div id="kanbanView" class="kanban-board hidden"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="modalTitle">New Entry</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-grid">
+      <div class="modal-field full">
+        <label class="modal-label">Topic</label>
+        <input class="modal-input" id="mTopic" placeholder="Video topic or title...">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Type</label>
+        <select class="modal-select" id="mType">
+          <option value="">— Select —</option>
+          <option>LONG</option>
+          <option>SHORT</option>
+          <option>CARASOL</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Platform</label>
+        <select class="modal-select" id="mPlatform">
+          <option value="">— Select —</option>
+          <option>INSTAGRAM</option>
+          <option>YOUTUBE</option>
+          <option>TIKTOK</option>
+          <option>TWITTER</option>
+          <option>LINKEDIN</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Page</label>
+        <select class="modal-select" id="mPage">
+          <option value="">— Select —</option>
+          <option>WARRIOR OVERLOADED</option>
+          <option>CASUAL WARRIOR</option>
+          <option>WARRIOR.OV</option>
+          <option>ESPORTS LENS</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Status</label>
+        <select class="modal-select" id="mStatus">
+          <option value="">— Select —</option>
+          <option>RESEARCH</option>
+          <option>SCRIPTING</option>
+          <option>RECORDED</option>
+          <option>SENT TO EDITOR</option>
+          <option>EDITED</option>
+          <option>UPLOADED</option>
+          <option>REVIEWED</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Collab</label>
+        <input class="modal-input" id="mCollab" placeholder="Collaborator name...">
+      </div>
+      <div class="modal-field full">
+        <label class="modal-label">Description</label>
+        <textarea class="modal-textarea" id="mDescription" placeholder="Brief description of the content..."></textarea>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Upload Date</label>
+        <input class="modal-input" type="date" id="mUploadDate">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Note</label>
+        <input class="modal-input" id="mNote" placeholder="Any notes...">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Raw Footage Link</label>
+        <input class="modal-input" id="mRaw" placeholder="Drive / folder link...">
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Final Video Link</label>
+        <input class="modal-input" id="mFinal" placeholder="Published URL...">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveModal()">Save Entry</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+let rows = [
+  { id: 1, topic: 'NAMAH PARVATI PATAYE HAR HAR MAHADEV SHAMBHU', type: 'LONG', platform: 'INSTAGRAM', page: '', collab: '', description: '', status: '', uploadDate: '', note: '', raw: '', final: '' },
+  { id: 2, topic: '', type: 'LONG', platform: 'YOUTUBE', page: '', collab: '', description: '', status: 'RESEARCH', uploadDate: '', note: '', raw: '', final: '' },
+  { id: 3, topic: '', type: '', platform: '', page: 'WARRIOR OVERLOADED', collab: '', description: '', status: 'SCRIPTING', uploadDate: '', note: '', raw: '', final: '' },
+  { id: 4, topic: '', type: 'LONG', platform: '', page: 'CASUAL WARRIOR', collab: '', description: '', status: 'RECORDED', uploadDate: '', note: '', raw: '', final: '' },
+  { id: 5, topic: '', type: 'SHORT', platform: '', page: 'WARRIOR.OV', collab: '', description: '', status: 'SENT TO EDITOR', uploadDate: '', note: '', raw: '', final: '' },
+  { id: 6, topic: '', type: 'CARASOL', platform: '', page: 'ESPORTS LENS', collab: '', description: '', status: 'EDITED', uploadDate: '', note: '', raw: '', final: '' },
+  { id: 7, topic: '', type: '', platform: '', page: '', collab: '', description: '', status: 'UPLOADED', uploadDate: '', note: '', raw: '', final: '' },
+  { id: 8, topic: '', type: '', platform: '', page: '', collab: '', description: '', status: 'REVIEWED', uploadDate: '', note: '', raw: '', final: '' },
+];
+
+let nextId = 9;
+let currentFilter = 'ALL';
+let currentView = 'table';
+let sortField = null;
+let sortAsc = true;
+let editingId = null;
+
+// ─── STATUS STYLING ──────────────────────────────────────────────────────────
+const statusMeta = {
+  'RESEARCH':       { cls: 'status-research',      dot: '#5bc4ff' },
+  'SCRIPTING':      { cls: 'status-scripting',     dot: '#ffb347' },
+  'RECORDED':       { cls: 'status-recorded',      dot: '#b57bff' },
+  'SENT TO EDITOR': { cls: 'status-senttoeditor',  dot: '#ff7bdb' },
+  'EDITED':         { cls: 'status-edited',         dot: '#ff5f5f' },
+  'UPLOADED':       { cls: 'status-uploaded',       dot: '#c8f135' },
+  'REVIEWED':       { cls: 'status-reviewed',       dot: '#7fff6a' },
+};
+
+const typeMeta = {
+  'LONG':    'badge-long',
+  'SHORT':   'badge-short',
+  'CARASOL': 'badge-carasol',
+};
+
+const platformIcon = {
+  'INSTAGRAM': '📸',
+  'YOUTUBE':   '▶',
+  'TIKTOK':    '♪',
+  'TWITTER':   '✦',
+  'LINKEDIN':  '🔗',
+};
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function statusPill(status) {
+  if (!status) return `<span class="status-pill status-empty">—</span>`;
+  const m = statusMeta[status] || {};
+  return `<span class="status-pill ${m.cls || 'status-empty'}">
+    <span class="status-dot" style="background:${m.dot || '#555'}"></span>${escHtml(status)}
+  </span>`;
+}
+
+function typeBadge(type) {
+  if (!type) return `<span class="badge badge-empty">—</span>`;
+  return `<span class="badge ${typeMeta[type] || 'badge-empty'}">${escHtml(type)}</span>`;
+}
+
+function platformBadge(p) {
+  if (!p) return `<span style="color:var(--text3);font-size:11px">—</span>`;
+  return `<span class="platform-badge">${platformIcon[p] || '📡'} ${escHtml(p)}</span>`;
+}
+
+function selectOpts(opts, val) {
+  return opts.map(o => `<option${o===val?' selected':''}>${o}</option>`).join('');
+}
+
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  return rows.filter(r => {
+    const matchSearch = !q || Object.values(r).some(v => String(v).toLowerCase().includes(q));
+    const matchFilter = currentFilter === 'ALL' || r.status === currentFilter;
+    return matchSearch && matchFilter;
+  });
+}
+
+function getSorted(arr) {
+  if (!sortField) return arr;
+  return [...arr].sort((a,b) => {
+    const av = (a[sortField] || '').toLowerCase();
+    const bv = (b[sortField] || '').toLowerCase();
+    return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+}
+
+// ─── RENDER TABLE ─────────────────────────────────────────────────────────────
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  const data = getSorted(getFiltered());
+
+  if (!data.length) {
+    tbody.innerHTML = `<tr class="empty-row"><td colspan="12">No entries match your filters.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map((r, idx) => `
+    <tr style="animation-delay:${idx * 0.03}s">
+      <td class="topic-cell">
+        <input class="editable" value="${escHtml(r.topic)}"
+          placeholder="Enter topic…"
+          onchange="updateField(${r.id},'topic',this.value)"
+          title="${escHtml(r.topic)}">
+      </td>
+      <td>
+        <div class="cell-select-wrap">
+          ${typeBadge(r.type)}
+          <select class="cell-select" style="position:absolute;inset:0;opacity:0;cursor:pointer"
+            onchange="updateField(${r.id},'type',this.value);renderAll()">
+            <option value="">—</option>
+            ${selectOpts(['LONG','SHORT','CARASOL'], r.type)}
+          </select>
+        </div>
+      </td>
+      <td>
+        <div class="cell-select-wrap">
+          ${platformBadge(r.platform)}
+          <select class="cell-select" style="position:absolute;inset:0;opacity:0;cursor:pointer"
+            onchange="updateField(${r.id},'platform',this.value);renderAll()">
+            <option value="">—</option>
+            ${selectOpts(['INSTAGRAM','YOUTUBE','TIKTOK','TWITTER','LINKEDIN'], r.platform)}
+          </select>
+        </div>
+      </td>
+      <td>
+        <div class="cell-select-wrap">
+          <span style="font-size:11px;color:var(--text2)">${escHtml(r.page) || '<span style="color:var(--text3)">—</span>'}</span>
+          <select class="cell-select" style="position:absolute;inset:0;opacity:0;cursor:pointer"
+            onchange="updateField(${r.id},'page',this.value);renderAll()">
+            <option value="">—</option>
+            ${selectOpts(['WARRIOR OVERLOADED','CASUAL WARRIOR','WARRIOR.OV','ESPORTS LENS'], r.page)}
+          </select>
+        </div>
+      </td>
+      <td><input class="text-editable" value="${escHtml(r.collab)}" placeholder="—" onchange="updateField(${r.id},'collab',this.value)"></td>
+      <td><input class="text-editable" value="${escHtml(r.description)}" placeholder="—" onchange="updateField(${r.id},'description',this.value)" style="min-width:120px"></td>
+      <td>
+        <div class="cell-select-wrap">
+          ${statusPill(r.status)}
+          <select class="cell-select" style="position:absolute;inset:0;opacity:0;cursor:pointer"
+            onchange="updateField(${r.id},'status',this.value);renderAll()">
+            <option value="">—</option>
+            ${selectOpts(['RESEARCH','SCRIPTING','RECORDED','SENT TO EDITOR','EDITED','UPLOADED','REVIEWED'], r.status)}
+          </select>
+        </div>
+      </td>
+      <td><input class="text-editable" type="date" value="${escHtml(r.uploadDate)}" onchange="updateField(${r.id},'uploadDate',this.value)"></td>
+      <td><input class="text-editable" value="${escHtml(r.note)}" placeholder="—" onchange="updateField(${r.id},'note',this.value)"></td>
+      <td>
+        ${r.raw
+          ? `<a href="${escHtml(r.raw)}" target="_blank" style="color:var(--info);font-size:11px;text-decoration:none">↗ Link</a>`
+          : `<input class="text-editable" value="" placeholder="Link…" onchange="updateField(${r.id},'raw',this.value)" style="min-width:70px">`}
+      </td>
+      <td>
+        ${r.final
+          ? `<a href="${escHtml(r.final)}" target="_blank" style="color:var(--accent);font-size:11px;text-decoration:none">↗ Link</a>`
+          : `<input class="text-editable" value="" placeholder="Link…" onchange="updateField(${r.id},'final',this.value)" style="min-width:70px">`}
+      </td>
+      <td>
+        <div class="row-actions">
+          <button class="row-btn dup" onclick="duplicateRow(${r.id})" title="Duplicate">⧉</button>
+          <button class="row-btn" onclick="deleteRow(${r.id})" title="Delete">✕</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// ─── RENDER KANBAN ────────────────────────────────────────────────────────────
+function renderKanban() {
+  const board = document.getElementById('kanbanView');
+  const statuses = ['RESEARCH','SCRIPTING','RECORDED','SENT TO EDITOR','EDITED','UPLOADED','REVIEWED'];
+  const data = getFiltered();
+
+  board.innerHTML = statuses.map(s => {
+    const cards = data.filter(r => r.status === s);
+    const m = statusMeta[s];
+    return `
+      <div class="kanban-col">
+        <div class="kanban-header">
+          <span class="kanban-title" style="color:${m.dot}">${s}</span>
+          <span class="kanban-count">${cards.length}</span>
+        </div>
+        <div class="kanban-cards">
+          ${cards.length ? cards.map(r => `
+            <div class="kanban-card" onclick="openEditModal(${r.id})">
+              <div class="kanban-card-topic">${escHtml(r.topic) || '<span style="color:var(--text3);font-style:italic">Untitled</span>'}</div>
+              <div class="kanban-card-meta">
+                ${r.type ? `<span class="badge ${typeMeta[r.type]||'badge-empty'}" style="font-size:9px;padding:2px 6px">${r.type}</span>` : ''}
+                ${r.platform ? `<span class="platform-badge" style="font-size:9px;padding:2px 6px">${platformIcon[r.platform]||''} ${r.platform}</span>` : ''}
+              </div>
+            </div>
+          `).join('') : `<div style="color:var(--text3);font-size:11px;text-align:center;padding:12px">Empty</div>`}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ─── STATS ────────────────────────────────────────────────────────────────────
+function renderStats() {
+  const total = rows.length;
+  const uploaded = rows.filter(r=>r.status==='UPLOADED'||r.status==='REVIEWED').length;
+  const inProgress = rows.filter(r=>r.status&&r.status!=='UPLOADED'&&r.status!=='REVIEWED').length;
+
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stats-pill">
+      <div class="stat-item"><span class="stat-val">${total}</span><span class="stat-label">Total</span></div>
+      <div class="stat-item"><span class="stat-val">${inProgress}</span><span class="stat-label">Active</span></div>
+      <div class="stat-item"><span class="stat-val">${uploaded}</span><span class="stat-label">Done</span></div>
+    </div>
+  `;
+}
+
+// ─── RENDER ALL ───────────────────────────────────────────────────────────────
+function renderAll() {
+  renderStats();
+  if (currentView === 'table') renderTable();
+  else renderKanban();
+}
+
+// ─── ACTIONS ─────────────────────────────────────────────────────────────────
+function updateField(id, field, value) {
+  const r = rows.find(r => r.id === id);
+  if (r) r[field] = value;
+  renderStats();
+  if (currentView === 'kanban') renderKanban();
+}
+
+function addRow() {
+  rows.push({ id: nextId++, topic:'', type:'', platform:'', page:'', collab:'', description:'', status:'', uploadDate:'', note:'', raw:'', final:'' });
+  renderAll();
+  showToast('Row added');
+}
+
+function deleteRow(id) {
+  rows = rows.filter(r => r.id !== id);
+  renderAll();
+  showToast('Row deleted');
+}
+
+function duplicateRow(id) {
+  const src = rows.find(r => r.id === id);
+  if (src) {
+    const copy = { ...src, id: nextId++, topic: src.topic ? src.topic + ' (copy)' : '' };
+    const idx = rows.indexOf(src);
+    rows.splice(idx + 1, 0, copy);
+    renderAll();
+    showToast('Row duplicated');
+  }
+}
+
+function setFilter(btn, val) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = val;
+  renderAll();
+}
+
+function setView(v) {
+  currentView = v;
+  document.getElementById('tableView').classList.toggle('hidden', v !== 'table');
+  document.getElementById('kanbanView').classList.toggle('hidden', v !== 'kanban');
+  document.getElementById('tableViewBtn').classList.toggle('active', v === 'table');
+  document.getElementById('kanbanViewBtn').classList.toggle('active', v === 'kanban');
+  renderAll();
+}
+
+function sortBy(field) {
+  if (sortField === field) sortAsc = !sortAsc;
+  else { sortField = field; sortAsc = true; }
+  document.querySelectorAll('thead th').forEach(th => th.classList.remove('sorted'));
+  const ths = document.querySelectorAll('thead th');
+  const fields = ['topic','type','platform','page','collab','description','status','uploadDate'];
+  const idx = fields.indexOf(field);
+  if (idx >= 0) ths[idx].classList.add('sorted');
+  renderTable();
+}
+
+// ─── MODAL ───────────────────────────────────────────────────────────────────
+function openModal() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'New Entry';
+  ['mTopic','mCollab','mNote','mRaw','mFinal','mDescription'].forEach(id => document.getElementById(id).value = '');
+  ['mType','mPlatform','mPage','mStatus'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('mUploadDate').value = '';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function openEditModal(id) {
+  const r = rows.find(r => r.id === id);
+  if (!r) return;
+  editingId = id;
+  document.getElementById('modalTitle').textContent = 'Edit Entry';
+  document.getElementById('mTopic').value = r.topic;
+  document.getElementById('mType').value = r.type;
+  document.getElementById('mPlatform').value = r.platform;
+  document.getElementById('mPage').value = r.page;
+  document.getElementById('mCollab').value = r.collab;
+  document.getElementById('mDescription').value = r.description;
+  document.getElementById('mStatus').value = r.status;
+  document.getElementById('mUploadDate').value = r.uploadDate;
+  document.getElementById('mNote').value = r.note;
+  document.getElementById('mRaw').value = r.raw;
+  document.getElementById('mFinal').value = r.final;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function saveModal() {
+  const data = {
+    topic: document.getElementById('mTopic').value.trim(),
+    type: document.getElementById('mType').value,
+    platform: document.getElementById('mPlatform').value,
+    page: document.getElementById('mPage').value,
+    collab: document.getElementById('mCollab').value.trim(),
+    description: document.getElementById('mDescription').value.trim(),
+    status: document.getElementById('mStatus').value,
+    uploadDate: document.getElementById('mUploadDate').value,
+    note: document.getElementById('mNote').value.trim(),
+    raw: document.getElementById('mRaw').value.trim(),
+    final: document.getElementById('mFinal').value.trim(),
+  };
+
+  if (editingId !== null) {
+    const r = rows.find(r => r.id === editingId);
+    if (r) Object.assign(r, data);
+    showToast('Entry updated');
+  } else {
+    rows.push({ id: nextId++, ...data });
+    showToast('Entry added');
+  }
+
+  closeModal();
+  renderAll();
+}
+
+// Close modal on overlay click
+document.getElementById('modalOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+// Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─── TOAST ───────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = '✓ ' + msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ─── THEME TOGGLE ────────────────────────────────────────────────────────────
+let isLight = false;
+function toggleTheme() {
+  isLight = !isLight;
+  document.body.classList.toggle('light', isLight);
+  document.getElementById('themeIcon').textContent = isLight ? '🌙' : '☀️';
+  document.getElementById('themeLabel').textContent = isLight ? 'Dark Mode' : 'Light Mode';
+  localStorage.setItem('warrior-theme', isLight ? 'light' : 'dark');
+}
+
+// Load saved theme
+(function() {
+  const saved = localStorage.getItem('warrior-theme');
+  if (saved === 'light') { isLight = false; toggleTheme(); }
+})();
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderAll();
+</script>
+</body>
+</html>
