@@ -67,11 +67,220 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: var(--bg);
+    background:
+      radial-gradient(circle at top left, rgba(200,241,53,0.10), transparent 24%),
+      radial-gradient(circle at top right, rgba(91,196,255,0.08), transparent 22%),
+      linear-gradient(180deg, rgba(255,255,255,0.01), transparent 22%),
+      var(--bg);
     color: var(--text);
     font-family: 'DM Mono', monospace;
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  .app-shell {
+    padding: 24px 32px 40px;
+  }
+
+  .hero-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+
+  .hero-copy {
+    padding: 28px 30px;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background:
+      linear-gradient(145deg, rgba(200,241,53,0.10), transparent 42%),
+      linear-gradient(180deg, rgba(255,255,255,0.02), transparent 100%),
+      var(--surface);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    margin-bottom: 14px;
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 0.96;
+    letter-spacing: -0.05em;
+    max-width: 12ch;
+    margin-bottom: 14px;
+  }
+
+  .hero-desc {
+    max-width: 64ch;
+    color: var(--text2);
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .hero-stat {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent), var(--surface);
+    box-shadow: 0 18px 45px rgba(0,0,0,0.14);
+  }
+
+  .hero-stat-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text3);
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .hero-stat-value {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+  }
+
+  .hero-stat-note {
+    color: var(--text2);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .status-overview {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .status-card {
+    padding: 14px 14px 12px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    min-width: 0;
+  }
+
+  .status-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .status-card-name {
+    color: var(--text2);
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .status-card-value {
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+
+  .status-card-note {
+    color: var(--text3);
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .workspace-panel {
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent 28%), var(--surface);
+    box-shadow: 0 26px 60px rgba(0,0,0,0.16);
+    overflow: hidden;
+  }
+
+  .panel-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-kicker {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .panel-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin-bottom: 8px;
+  }
+
+  .panel-note {
+    color: var(--text2);
+    font-size: 12px;
+    line-height: 1.65;
+    max-width: 58ch;
+  }
+
+  .panel-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .panel-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface2);
+    color: var(--text2);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
   }
 
   /* ── HEADER ── */
@@ -122,6 +331,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   .stats-pill {
@@ -171,22 +382,77 @@
   .btn-new:hover { opacity: 0.9; transform: translateY(-1px); }
   .btn-new:active { transform: translateY(0); }
 
+  .btn-secondary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+  .btn-secondary:active { transform: translateY(0); }
+
+  .save-indicator {
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(200,241,53,0.24);
+    background: rgba(200,241,53,0.08);
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .save-indicator.error {
+    border-color: rgba(255,95,95,0.3);
+    background: rgba(255,95,95,0.08);
+    color: var(--danger);
+  }
+
   /* ── TOOLBAR ── */
   .toolbar {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 32px;
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
+    align-items: flex-end;
+    gap: 16px;
+    padding: 18px 24px;
+    background: transparent;
     flex-wrap: wrap;
+  }
+
+  .toolbar-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .toolbar-block.grow {
+    flex: 1 1 260px;
+    min-width: 220px;
+  }
+
+  .toolbar-label {
+    color: var(--text3);
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
   }
 
   .search-wrap {
     position: relative;
-    flex: 1;
-    min-width: 200px;
-    max-width: 320px;
+    width: 100%;
+    min-width: 220px;
   }
 
   .search-icon {
@@ -262,7 +528,7 @@
 
   /* ── TABLE ── */
   .table-wrap {
-    padding: 24px 32px;
+    padding: 0 24px 24px;
     overflow-x: auto;
   }
 
@@ -491,6 +757,7 @@
     text-align: center;
     padding: 60px;
     color: var(--text3);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent), var(--surface2);
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
@@ -521,9 +788,10 @@
   .kanban-board {
     display: flex;
     gap: 16px;
-    padding: 24px 32px;
+    padding: 0 24px 24px;
     overflow-x: auto;
     align-items: flex-start;
+    min-height: 280px;
   }
 
   .kanban-col {
@@ -653,6 +921,12 @@
   .modal-field { display: flex; flex-direction: column; gap: 5px; }
   .modal-field.full { grid-column: 1 / -1; }
 
+  .modal-note {
+    color: var(--text2);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
   .modal-label {
     font-size: 10px;
     letter-spacing: 0.08em;
@@ -732,6 +1006,7 @@
     opacity: 0;
     transition: all 0.2s;
     pointer-events: none;
+    box-shadow: 0 18px 35px rgba(0,0,0,0.25);
   }
   .toast.show { opacity: 1; transform: translateY(0); }
 
@@ -766,12 +1041,42 @@
   .theme-toggle:hover { border-color: var(--accent); color: var(--text); }
 
   body.light .theme-toggle { background: #e8edf3; }
+  body.light .btn-secondary { background: #e8edf3; }
+  body.light .save-indicator {
+    border-color: rgba(90,158,0,0.24);
+    background: rgba(90,158,0,0.08);
+  }
+
+  @media (max-width: 1180px) {
+    .hero-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .status-overview {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
 
   @media (max-width: 768px) {
-    header, .toolbar { padding: 12px 16px; }
-    .table-wrap { padding: 12px 16px; }
-    .kanban-board { padding: 12px 16px; }
+    header { padding: 12px 16px; }
+    .app-shell { padding: 16px 16px 28px; }
+    .hero-copy, .hero-stat, .workspace-panel { border-radius: 18px; }
+    .panel-head, .toolbar { padding-left: 16px; padding-right: 16px; }
+    .table-wrap { padding: 0 16px 16px; }
+    .kanban-board { padding: 0 16px 16px; }
     .stats-pill { display: none; }
+    .save-indicator { display: none; }
+    .hero-grid, .status-overview { grid-template-columns: 1fr 1fr; }
+    .panel-head { flex-direction: column; }
+    .panel-meta { justify-content: flex-start; }
+    .toolbar-block, .toolbar-block.grow { width: 100%; flex: 1 1 100%; }
+    .divider { display: none; }
+  }
+
+  @media (max-width: 520px) {
+    .hero-grid, .status-overview { grid-template-columns: 1fr; }
+    .modal-grid { grid-template-columns: 1fr; }
+    .panel-title { font-size: 22px; }
   }
 </style>
 </head>
@@ -788,6 +1093,8 @@
   </div>
   <div class="header-right">
     <div class="stats-pills" id="statsBar"></div>
+    <div class="save-indicator" id="saveIndicator">Auto-save on</div>
+    <button class="btn-secondary" onclick="openExportModal()">Save PDF / PNG</button>
     <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
       <span id="themeIcon">☀️</span>
       <span id="themeLabel">Light Mode</span>
@@ -798,14 +1105,47 @@
   </div>
 </header>
 
+<main class="app-shell">
+  <section class="hero-panel">
+    <div class="hero-copy">
+      <span class="hero-eyebrow">Warrior Studio Operations</span>
+      <h1 class="hero-title">Content pipeline command center</h1>
+      <p class="hero-desc">
+        Organize ideas, production stages, collaborators, links, and delivery dates in one workspace.
+        Every change saves locally while you work, and exports are ready for client updates or team handoff.
+      </p>
+    </div>
+    <div class="hero-grid" id="heroStats"></div>
+  </section>
+
+  <section class="status-overview" id="statusOverview"></section>
+
+  <section class="workspace-panel">
+    <div class="panel-head">
+      <div class="panel-copy">
+        <span class="panel-kicker">Pipeline Workspace</span>
+        <h2 class="panel-title" id="panelTitle">Pipeline Table</h2>
+        <p class="panel-note" id="panelNote">Track content from research to review with a cleaner operational view.</p>
+      </div>
+      <div class="panel-meta">
+        <span class="panel-chip" id="panelScopeChip">All entries</span>
+        <span class="panel-chip" id="panelViewChip">Table view</span>
+      </div>
+    </div>
+
 <!-- TOOLBAR -->
 <div class="toolbar">
-  <div class="search-wrap">
+  <div class="toolbar-block grow">
+    <span class="toolbar-label">Search</span>
+    <div class="search-wrap">
     <span class="search-icon">⌕</span>
-    <input class="search-input" type="text" placeholder="Search topics..." id="searchInput" oninput="renderAll()">
-  </div>
+    <input class="search-input" type="text" placeholder="Search topics, links, collaborators..." id="searchInput" oninput="renderAll()">
+    </div>
 
-  <div class="filter-group" id="statusFilters">
+  </div>
+  <div class="toolbar-block">
+    <span class="toolbar-label">Status Filter</span>
+    <div class="filter-group" id="statusFilters">
     <button class="filter-btn active" data-filter="ALL" onclick="setFilter(this,'ALL')">All</button>
     <button class="filter-btn" data-filter="RESEARCH" onclick="setFilter(this,'RESEARCH')">Research</button>
     <button class="filter-btn" data-filter="SCRIPTING" onclick="setFilter(this,'SCRIPTING')">Scripting</button>
@@ -814,13 +1154,17 @@
     <button class="filter-btn" data-filter="EDITED" onclick="setFilter(this,'EDITED')">Edited</button>
     <button class="filter-btn" data-filter="UPLOADED" onclick="setFilter(this,'UPLOADED')">Uploaded</button>
     <button class="filter-btn" data-filter="REVIEWED" onclick="setFilter(this,'REVIEWED')">Reviewed</button>
-  </div>
+    </div>
 
+  </div>
   <div class="divider"></div>
 
-  <div class="view-toggle">
+  <div class="toolbar-block">
+    <span class="toolbar-label">View</span>
+    <div class="view-toggle">
     <button class="view-btn active" id="tableViewBtn" onclick="setView('table')" title="Table View">☰</button>
     <button class="view-btn" id="kanbanViewBtn" onclick="setView('kanban')" title="Kanban View">▦</button>
+    </div>
   </div>
 </div>
 
@@ -850,6 +1194,9 @@
 
 <!-- KANBAN VIEW -->
 <div id="kanbanView" class="kanban-board hidden"></div>
+
+  </section>
+</main>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
@@ -938,11 +1285,49 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="exportOverlay">
+  <div class="modal">
+    <div class="modal-title">
+      <span>Save as PDF or PNG</span>
+      <button class="modal-close" onclick="closeExportModal()">✕</button>
+    </div>
+    <div class="modal-grid">
+      <div class="modal-field">
+        <label class="modal-label">Format</label>
+        <select class="modal-select" id="exportFormat">
+          <option value="pdf">PDF report</option>
+          <option value="png">PNG image</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label class="modal-label">Scope</label>
+        <select class="modal-select" id="exportScope">
+          <option value="filtered">Current filtered rows</option>
+          <option value="all">All rows</option>
+        </select>
+      </div>
+      <div class="modal-field full">
+        <p class="modal-note" id="exportHint">PDF opens a print-ready report. PNG downloads a snapshot image file.</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeExportModal()">Cancel</button>
+      <button class="btn-save" onclick="exportData()">Continue</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 // ─── DATA ───────────────────────────────────────────────────────────────────
-let rows = [
+const STORAGE_KEY = 'warrior-content-pipeline-rows-v1';
+const THEME_KEY = 'warrior-theme';
+const ROW_FIELDS = ['topic','type','platform','page','collab','description','status','uploadDate','note','raw','final'];
+let storageAvailable = true;
+let lastSavedAt = '';
+
+const defaultRows = [
   { id: 1, topic: 'NAMAH PARVATI PATAYE HAR HAR MAHADEV SHAMBHU', type: 'LONG', platform: 'INSTAGRAM', page: '', collab: '', description: '', status: '', uploadDate: '', note: '', raw: '', final: '' },
   { id: 2, topic: '', type: 'LONG', platform: 'YOUTUBE', page: '', collab: '', description: '', status: 'RESEARCH', uploadDate: '', note: '', raw: '', final: '' },
   { id: 3, topic: '', type: '', platform: '', page: 'WARRIOR OVERLOADED', collab: '', description: '', status: 'SCRIPTING', uploadDate: '', note: '', raw: '', final: '' },
@@ -953,7 +1338,128 @@ let rows = [
   { id: 8, topic: '', type: '', platform: '', page: '', collab: '', description: '', status: 'REVIEWED', uploadDate: '', note: '', raw: '', final: '' },
 ];
 
-let nextId = 9;
+function readStorage(key) {
+  try {
+    storageAvailable = true;
+    return localStorage.getItem(key);
+  } catch (error) {
+    storageAvailable = false;
+    console.warn('Storage read failed.', error);
+    return null;
+  }
+}
+
+function writeStorage(key, value) {
+  try {
+    localStorage.setItem(key, value);
+    storageAvailable = true;
+    return true;
+  } catch (error) {
+    storageAvailable = false;
+    console.warn('Storage write failed.', error);
+    return false;
+  }
+}
+
+function createRow(overrides = {}) {
+  return {
+    id: 0,
+    topic: '',
+    type: '',
+    platform: '',
+    page: '',
+    collab: '',
+    description: '',
+    status: '',
+    uploadDate: '',
+    note: '',
+    raw: '',
+    final: '',
+    ...overrides,
+  };
+}
+
+function normalizeRow(row, fallbackId) {
+  const source = row && typeof row === 'object' ? row : {};
+  const normalized = createRow({ id: Number(source.id) || fallbackId });
+  ROW_FIELDS.forEach(field => {
+    normalized[field] = source[field] == null ? '' : String(source[field]);
+  });
+  return normalized;
+}
+
+function cloneDefaultRows() {
+  return defaultRows.map((row, index) => normalizeRow(row, index + 1));
+}
+
+function loadRows() {
+  const raw = readStorage(STORAGE_KEY);
+  if (!raw) return cloneDefaultRows();
+
+  try {
+    const parsed = JSON.parse(raw);
+    const savedRows = Array.isArray(parsed)
+      ? parsed
+      : parsed && Array.isArray(parsed.rows)
+        ? parsed.rows
+        : null;
+
+    if (!savedRows) return cloneDefaultRows();
+
+    lastSavedAt = parsed && !Array.isArray(parsed) && parsed.savedAt ? String(parsed.savedAt) : '';
+    return savedRows.map((row, index) => normalizeRow(row, index + 1));
+  } catch (error) {
+    console.warn('Saved rows were invalid and were reset.', error);
+    return cloneDefaultRows();
+  }
+}
+
+function getNextId(list) {
+  return list.reduce((maxId, row) => Math.max(maxId, Number(row.id) || 0), 0) + 1;
+}
+
+function formatSaveTime(value) {
+  if (!value) return '';
+
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return '';
+
+  return parsed.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function setSaveState(message, isError = false) {
+  const indicator = document.getElementById('saveIndicator');
+  if (!indicator) return;
+
+  indicator.textContent = message;
+  indicator.classList.toggle('error', isError);
+}
+
+function syncSaveIndicator() {
+  if (!storageAvailable) {
+    setSaveState('Browser save blocked', true);
+    return;
+  }
+
+  const savedLabel = formatSaveTime(lastSavedAt);
+  setSaveState(savedLabel ? `Saved ${savedLabel}` : 'Auto-save on');
+}
+
+function persistRows() {
+  const savedAt = new Date().toISOString();
+
+  if (writeStorage(STORAGE_KEY, JSON.stringify({ savedAt, rows }))) {
+    lastSavedAt = savedAt;
+    syncSaveIndicator();
+    return true;
+  }
+
+  setSaveState('Browser save blocked', true);
+  return false;
+}
+
+let rows = loadRows();
+let nextId = getNextId(rows);
 let currentFilter = 'ALL';
 let currentView = 'table';
 let sortField = null;
@@ -984,6 +1490,22 @@ const platformIcon = {
   'TWITTER':   '✦',
   'LINKEDIN':  '🔗',
 };
+
+const PIPELINE_STATUSES = ['RESEARCH','SCRIPTING','RECORDED','SENT TO EDITOR','EDITED','UPLOADED','REVIEWED'];
+
+const EXPORT_COLUMNS = [
+  { key: 'topic', label: 'Topic', width: 260 },
+  { key: 'type', label: 'Type', width: 95 },
+  { key: 'platform', label: 'Platform', width: 120 },
+  { key: 'page', label: 'Page', width: 180 },
+  { key: 'collab', label: 'Collab', width: 120 },
+  { key: 'description', label: 'Description', width: 220 },
+  { key: 'status', label: 'Status', width: 140 },
+  { key: 'uploadDate', label: 'Upload Date', width: 120 },
+  { key: 'note', label: 'Note', width: 160 },
+  { key: 'raw', label: 'Raw Footage', width: 180 },
+  { key: 'final', label: 'Final Video', width: 180 },
+];
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
 function escHtml(str) {
@@ -1030,6 +1552,57 @@ function getSorted(arr) {
   });
 }
 
+function getDoneCount(list = rows) {
+  return list.filter(r => r.status === 'UPLOADED' || r.status === 'REVIEWED').length;
+}
+
+function getActiveCount(list = rows) {
+  return list.filter(r => r.status && r.status !== 'UPLOADED' && r.status !== 'REVIEWED').length;
+}
+
+function getCurrentScopeLabel() {
+  const query = document.getElementById('searchInput').value.trim();
+  if (query) return `Search: ${query}`;
+  if (currentFilter !== 'ALL') return `Status: ${currentFilter}`;
+  return 'All entries';
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+function getScopeLabel(scope) {
+  if (scope === 'all') return 'All rows';
+
+  const query = document.getElementById('searchInput').value.trim();
+  if (query) return `Search: ${query}`;
+  if (currentFilter !== 'ALL') return `Status: ${currentFilter}`;
+  return 'Current filtered rows';
+}
+
+function getExportRows(scope) {
+  return getSorted(scope === 'all' ? rows : getFiltered());
+}
+
+function getExportCellValue(row, field) {
+  const value = row[field];
+  return value && String(value).trim() ? String(value) : '—';
+}
+
+function getExportFileName(extension) {
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-');
+  return `warrior-content-pipeline-${stamp}.${extension}`;
+}
+
+function updateExportHint() {
+  const format = document.getElementById('exportFormat').value;
+  document.getElementById('exportHint').textContent =
+    format === 'pdf'
+      ? 'PDF opens a print-ready report in a new tab so the user can Save as PDF.'
+      : 'PNG downloads a single image snapshot of the selected rows.';
+}
+
 // ─── RENDER TABLE ─────────────────────────────────────────────────────────────
 function renderTable() {
   const tbody = document.getElementById('tableBody');
@@ -1045,7 +1618,7 @@ function renderTable() {
       <td class="topic-cell">
         <input class="editable" value="${escHtml(r.topic)}"
           placeholder="Enter topic…"
-          onchange="updateField(${r.id},'topic',this.value)"
+          oninput="updateField(${r.id},'topic',this.value)"
           title="${escHtml(r.topic)}">
       </td>
       <td>
@@ -1078,8 +1651,8 @@ function renderTable() {
           </select>
         </div>
       </td>
-      <td><input class="text-editable" value="${escHtml(r.collab)}" placeholder="—" onchange="updateField(${r.id},'collab',this.value)"></td>
-      <td><input class="text-editable" value="${escHtml(r.description)}" placeholder="—" onchange="updateField(${r.id},'description',this.value)" style="min-width:120px"></td>
+      <td><input class="text-editable" value="${escHtml(r.collab)}" placeholder="—" oninput="updateField(${r.id},'collab',this.value)"></td>
+      <td><input class="text-editable" value="${escHtml(r.description)}" placeholder="—" oninput="updateField(${r.id},'description',this.value)" style="min-width:120px"></td>
       <td>
         <div class="cell-select-wrap">
           ${statusPill(r.status)}
@@ -1090,17 +1663,17 @@ function renderTable() {
           </select>
         </div>
       </td>
-      <td><input class="text-editable" type="date" value="${escHtml(r.uploadDate)}" onchange="updateField(${r.id},'uploadDate',this.value)"></td>
-      <td><input class="text-editable" value="${escHtml(r.note)}" placeholder="—" onchange="updateField(${r.id},'note',this.value)"></td>
+      <td><input class="text-editable" type="date" value="${escHtml(r.uploadDate)}" oninput="updateField(${r.id},'uploadDate',this.value)"></td>
+      <td><input class="text-editable" value="${escHtml(r.note)}" placeholder="—" oninput="updateField(${r.id},'note',this.value)"></td>
       <td>
         ${r.raw
           ? `<a href="${escHtml(r.raw)}" target="_blank" style="color:var(--info);font-size:11px;text-decoration:none">↗ Link</a>`
-          : `<input class="text-editable" value="" placeholder="Link…" onchange="updateField(${r.id},'raw',this.value)" style="min-width:70px">`}
+          : `<input class="text-editable" value="" placeholder="Link…" oninput="updateField(${r.id},'raw',this.value)" style="min-width:70px">`}
       </td>
       <td>
         ${r.final
           ? `<a href="${escHtml(r.final)}" target="_blank" style="color:var(--accent);font-size:11px;text-decoration:none">↗ Link</a>`
-          : `<input class="text-editable" value="" placeholder="Link…" onchange="updateField(${r.id},'final',this.value)" style="min-width:70px">`}
+          : `<input class="text-editable" value="" placeholder="Link…" oninput="updateField(${r.id},'final',this.value)" style="min-width:70px">`}
       </td>
       <td>
         <div class="row-actions">
@@ -1115,10 +1688,9 @@ function renderTable() {
 // ─── RENDER KANBAN ────────────────────────────────────────────────────────────
 function renderKanban() {
   const board = document.getElementById('kanbanView');
-  const statuses = ['RESEARCH','SCRIPTING','RECORDED','SENT TO EDITOR','EDITED','UPLOADED','REVIEWED'];
   const data = getFiltered();
 
-  board.innerHTML = statuses.map(s => {
+  board.innerHTML = PIPELINE_STATUSES.map(s => {
     const cards = data.filter(r => r.status === s);
     const m = statusMeta[s];
     return `
@@ -1136,7 +1708,7 @@ function renderKanban() {
                 ${r.platform ? `<span class="platform-badge" style="font-size:9px;padding:2px 6px">${platformIcon[r.platform]||''} ${r.platform}</span>` : ''}
               </div>
             </div>
-          `).join('') : `<div style="color:var(--text3);font-size:11px;text-align:center;padding:12px">Empty</div>`}
+          `).join('') : `<div style="color:var(--text3);font-size:11px;text-align:center;padding:12px">No entries</div>`}
         </div>
       </div>
     `;
@@ -1146,8 +1718,16 @@ function renderKanban() {
 // ─── STATS ────────────────────────────────────────────────────────────────────
 function renderStats() {
   const total = rows.length;
-  const uploaded = rows.filter(r=>r.status==='UPLOADED'||r.status==='REVIEWED').length;
-  const inProgress = rows.filter(r=>r.status&&r.status!=='UPLOADED'&&r.status!=='REVIEWED').length;
+  const visible = getFiltered().length;
+  const uploaded = getDoneCount(rows);
+  const inProgress = getActiveCount(rows);
+  const unassigned = rows.filter(r => !r.status).length;
+  const query = document.getElementById('searchInput').value.trim();
+  const viewLabel = currentView === 'table' ? 'Table view' : 'Kanban view';
+  const scopeLabel = getCurrentScopeLabel();
+  const panelMessage = visible === total
+    ? `${total} entries in the workspace. Use filters, search, or view toggle to focus the team.`
+    : `${visible} visible entries out of ${total}. ${query ? 'Search is active.' : 'A status filter is active.'}`;
 
   document.getElementById('statsBar').innerHTML = `
     <div class="stats-pill">
@@ -1156,6 +1736,49 @@ function renderStats() {
       <div class="stat-item"><span class="stat-val">${uploaded}</span><span class="stat-label">Done</span></div>
     </div>
   `;
+
+  document.getElementById('heroStats').innerHTML = `
+    <article class="hero-stat">
+      <span class="hero-stat-label">Total Entries</span>
+      <strong class="hero-stat-value">${total}</strong>
+      <p class="hero-stat-note">All ideas, production tasks, and delivered posts currently tracked.</p>
+    </article>
+    <article class="hero-stat">
+      <span class="hero-stat-label">In Progress</span>
+      <strong class="hero-stat-value">${inProgress}</strong>
+      <p class="hero-stat-note">Items actively moving through research, scripting, recording, editing, or QA.</p>
+    </article>
+    <article class="hero-stat">
+      <span class="hero-stat-label">Completed</span>
+      <strong class="hero-stat-value">${uploaded}</strong>
+      <p class="hero-stat-note">Entries already uploaded or reviewed and ready to reference.</p>
+    </article>
+    <article class="hero-stat">
+      <span class="hero-stat-label">Visible Right Now</span>
+      <strong class="hero-stat-value">${visible}</strong>
+      <p class="hero-stat-note">${visible === total ? 'Showing the full workspace.' : `Current scope: ${escHtml(scopeLabel)}.`}</p>
+    </article>
+  `;
+
+  document.getElementById('statusOverview').innerHTML = PIPELINE_STATUSES.map(status => {
+    const count = rows.filter(r => r.status === status).length;
+    const meta = statusMeta[status];
+    return `
+      <article class="status-card">
+        <div class="status-card-top">
+          <span class="status-dot" style="width:10px;height:10px;background:${meta.dot}"></span>
+          <span class="status-card-value">${count}</span>
+        </div>
+        <div class="status-card-name">${escHtml(status)}</div>
+        <div class="status-card-note">${count ? 'Entries currently in this stage.' : 'No entries in this stage yet.'}</div>
+      </article>
+    `;
+  }).join('');
+
+  setText('panelTitle', currentView === 'table' ? 'Pipeline Table' : 'Pipeline Kanban');
+  setText('panelNote', `${panelMessage} ${unassigned ? `${unassigned} still need a status.` : 'Every entry is assigned to a stage.'}`);
+  setText('panelScopeChip', scopeLabel);
+  setText('panelViewChip', viewLabel);
 }
 
 // ─── RENDER ALL ───────────────────────────────────────────────────────────────
@@ -1168,19 +1791,24 @@ function renderAll() {
 // ─── ACTIONS ─────────────────────────────────────────────────────────────────
 function updateField(id, field, value) {
   const r = rows.find(r => r.id === id);
-  if (r) r[field] = value;
+  if (r) {
+    r[field] = value;
+    persistRows();
+  }
   renderStats();
   if (currentView === 'kanban') renderKanban();
 }
 
 function addRow() {
-  rows.push({ id: nextId++, topic:'', type:'', platform:'', page:'', collab:'', description:'', status:'', uploadDate:'', note:'', raw:'', final:'' });
+  rows.push(createRow({ id: nextId++ }));
+  persistRows();
   renderAll();
   showToast('Row added');
 }
 
 function deleteRow(id) {
   rows = rows.filter(r => r.id !== id);
+  persistRows();
   renderAll();
   showToast('Row deleted');
 }
@@ -1191,6 +1819,7 @@ function duplicateRow(id) {
     const copy = { ...src, id: nextId++, topic: src.topic ? src.topic + ' (copy)' : '' };
     const idx = rows.indexOf(src);
     rows.splice(idx + 1, 0, copy);
+    persistRows();
     renderAll();
     showToast('Row duplicated');
   }
@@ -1221,6 +1850,323 @@ function sortBy(field) {
   const idx = fields.indexOf(field);
   if (idx >= 0) ths[idx].classList.add('sorted');
   renderTable();
+}
+
+function openExportModal() {
+  document.getElementById('exportFormat').value = 'pdf';
+  document.getElementById('exportScope').value = 'filtered';
+  updateExportHint();
+  document.getElementById('exportOverlay').classList.add('open');
+}
+
+function closeExportModal() {
+  document.getElementById('exportOverlay').classList.remove('open');
+}
+
+function buildPdfReport(exportRows, scope) {
+  const generatedAt = new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+  const scopeLabel = getScopeLabel(scope);
+  const tableHead = EXPORT_COLUMNS.map(col => `<th>${escHtml(col.label)}</th>`).join('');
+  const tableBody = exportRows.map(row => `
+    <tr>
+      ${EXPORT_COLUMNS.map(col => `<td>${escHtml(getExportCellValue(row, col.key))}</td>`).join('')}
+    </tr>
+  `).join('');
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Content Pipeline Export</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px;
+    color: #111827;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+  }
+  .sheet {
+    border: 1px solid #d1d5db;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .hero {
+    padding: 28px 32px;
+    background: linear-gradient(135deg, #111827, #1f2937);
+    color: #f9fafb;
+  }
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #d1d5db;
+    margin-bottom: 10px;
+  }
+  .title {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 12px;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 12px;
+    color: #e5e7eb;
+  }
+  .meta span {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.08);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  th, td {
+    border: 1px solid #e5e7eb;
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+    font-size: 11px;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+  th {
+    background: #f3f4f6;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #4b5563;
+  }
+  tr:nth-child(even) td { background: #fafafa; }
+  @page { size: landscape; margin: 12mm; }
+  @media print {
+    body { padding: 0; }
+    .sheet { border: none; border-radius: 0; }
+  }
+</style>
+</head>
+<body>
+  <section class="sheet">
+    <div class="hero">
+      <div class="kicker">Warrior Studio</div>
+      <h1 class="title">Content Pipeline Export</h1>
+      <div class="meta">
+        <span>${escHtml(scopeLabel)}</span>
+        <span>${exportRows.length} rows</span>
+        <span>${escHtml(generatedAt)}</span>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>${tableHead}</tr>
+      </thead>
+      <tbody>${tableBody}</tbody>
+    </table>
+  </section>
+  <script>
+    window.addEventListener('load', function () {
+      setTimeout(function () { window.print(); }, 200);
+    });
+    window.addEventListener('afterprint', function () {
+      window.close();
+    });
+  <\/script>
+</body>
+</html>`;
+}
+
+function exportPdfReport(exportRows, scope) {
+  const popup = window.open('', '_blank', 'width=1280,height=900');
+  if (!popup) {
+    showToast('Allow popups to export PDF');
+    return;
+  }
+
+  popup.document.open();
+  popup.document.write(buildPdfReport(exportRows, scope));
+  popup.document.close();
+  showToast('PDF export opened');
+}
+
+function wrapCanvasText(ctx, text, maxWidth) {
+  const lines = [];
+  const parts = String(text || '—').split('\n');
+
+  parts.forEach(part => {
+    const words = part.trim() ? part.split(/\s+/) : ['—'];
+    let current = '';
+
+    words.forEach(word => {
+      const candidate = current ? `${current} ${word}` : word;
+      if (ctx.measureText(candidate).width <= maxWidth) {
+        current = candidate;
+        return;
+      }
+
+      if (current) lines.push(current);
+
+      if (ctx.measureText(word).width <= maxWidth) {
+        current = word;
+        return;
+      }
+
+      let segment = '';
+      Array.from(word).forEach(char => {
+        const chunk = segment + char;
+        if (ctx.measureText(chunk).width > maxWidth && segment) {
+          lines.push(segment);
+          segment = char;
+        } else {
+          segment = chunk;
+        }
+      });
+      current = segment;
+    });
+
+    if (current) lines.push(current);
+  });
+
+  return lines.length ? lines : ['—'];
+}
+
+function exportPngReport(exportRows, scope) {
+  const margin = 36;
+  const headerHeight = 108;
+  const tableHeaderHeight = 42;
+  const rowLineHeight = 15;
+  const rowPaddingY = 14;
+  const totalWidth = EXPORT_COLUMNS.reduce((sum, col) => sum + col.width, 0);
+  const colors = {
+    bg: getComputedStyle(document.body).getPropertyValue('--bg').trim() || '#0b0d0f',
+    surface: getComputedStyle(document.body).getPropertyValue('--surface').trim() || '#141618',
+    surface2: getComputedStyle(document.body).getPropertyValue('--surface2').trim() || '#1c1f22',
+    border: getComputedStyle(document.body).getPropertyValue('--border').trim() || '#2a2d31',
+    accent: getComputedStyle(document.body).getPropertyValue('--accent').trim() || '#c8f135',
+    text: getComputedStyle(document.body).getPropertyValue('--text').trim() || '#e8eaed',
+    text2: getComputedStyle(document.body).getPropertyValue('--text2').trim() || '#9aa0aa',
+    text3: getComputedStyle(document.body).getPropertyValue('--text3').trim() || '#5c6370',
+  };
+
+  const measureCanvas = document.createElement('canvas');
+  const measureCtx = measureCanvas.getContext('2d');
+  measureCtx.font = '11px "DM Mono", monospace';
+
+  const rowHeights = exportRows.map(row => {
+    let maxLines = 1;
+    EXPORT_COLUMNS.forEach(col => {
+      measureCtx.font = col.key === 'topic' ? '600 12px Arial, sans-serif' : '11px "DM Mono", monospace';
+      const lines = wrapCanvasText(measureCtx, getExportCellValue(row, col.key), col.width - 18);
+      maxLines = Math.max(maxLines, lines.length);
+    });
+    return Math.max(42, rowPaddingY * 2 + (maxLines * rowLineHeight));
+  });
+
+  const totalHeight = margin + headerHeight + 20 + tableHeaderHeight + rowHeights.reduce((sum, height) => sum + height, 0) + 28;
+  const canvas = document.createElement('canvas');
+  canvas.width = margin * 2 + totalWidth;
+  canvas.height = totalHeight;
+
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = colors.bg;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = colors.surface;
+  ctx.fillRect(margin, margin, totalWidth, headerHeight);
+  ctx.strokeStyle = colors.border;
+  ctx.strokeRect(margin, margin, totalWidth, headerHeight);
+
+  ctx.fillStyle = colors.accent;
+  ctx.fillRect(margin, margin, totalWidth, 6);
+
+  ctx.fillStyle = colors.text3;
+  ctx.font = '11px "DM Mono", monospace';
+  ctx.fillText('WARRIOR STUDIO', margin + 18, margin + 32);
+
+  ctx.fillStyle = colors.text;
+  ctx.font = '700 28px Arial, sans-serif';
+  ctx.fillText('Content Pipeline Export', margin + 18, margin + 64);
+
+  ctx.fillStyle = colors.text2;
+  ctx.font = '12px "DM Mono", monospace';
+  ctx.fillText(`Scope: ${getScopeLabel(scope)}`, margin + 18, margin + 88);
+  ctx.fillText(`Rows: ${exportRows.length}`, margin + 260, margin + 88);
+  ctx.fillText(`Generated: ${new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}`, margin + 390, margin + 88);
+
+  let y = margin + headerHeight + 20;
+  let x = margin;
+
+  ctx.font = '10px Arial, sans-serif';
+  ctx.textBaseline = 'top';
+  EXPORT_COLUMNS.forEach(col => {
+    ctx.fillStyle = colors.surface2;
+    ctx.fillRect(x, y, col.width, tableHeaderHeight);
+    ctx.strokeStyle = colors.border;
+    ctx.strokeRect(x, y, col.width, tableHeaderHeight);
+    ctx.fillStyle = colors.text3;
+    ctx.fillText(col.label.toUpperCase(), x + 9, y + 14);
+    x += col.width;
+  });
+
+  y += tableHeaderHeight;
+  exportRows.forEach((row, rowIndex) => {
+    const rowHeight = rowHeights[rowIndex];
+    let cellX = margin;
+
+    EXPORT_COLUMNS.forEach(col => {
+      ctx.font = col.key === 'topic' ? '600 12px Arial, sans-serif' : '11px "DM Mono", monospace';
+      const lines = wrapCanvasText(ctx, getExportCellValue(row, col.key), col.width - 18);
+      ctx.fillStyle = rowIndex % 2 === 0 ? colors.surface : colors.surface2;
+      ctx.fillRect(cellX, y, col.width, rowHeight);
+      ctx.strokeStyle = colors.border;
+      ctx.strokeRect(cellX, y, col.width, rowHeight);
+      ctx.fillStyle = colors.text;
+
+      lines.forEach((line, index) => {
+        ctx.fillText(line, cellX + 9, y + rowPaddingY + (index * rowLineHeight));
+      });
+
+      cellX += col.width;
+    });
+
+    y += rowHeight;
+  });
+
+  canvas.toBlob(blob => {
+    if (!blob) {
+      showToast('PNG export failed');
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = getExportFileName('png');
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast('PNG downloaded');
+  }, 'image/png');
+}
+
+function exportData() {
+  const format = document.getElementById('exportFormat').value;
+  const scope = document.getElementById('exportScope').value;
+  const exportRows = getExportRows(scope);
+
+  if (!exportRows.length) {
+    showToast('Nothing to export');
+    return;
+  }
+
+  closeExportModal();
+  if (format === 'png') exportPngReport(exportRows, scope);
+  else exportPdfReport(exportRows, scope);
 }
 
 // ─── MODAL ───────────────────────────────────────────────────────────────────
@@ -1276,10 +2222,11 @@ function saveModal() {
     if (r) Object.assign(r, data);
     showToast('Entry updated');
   } else {
-    rows.push({ id: nextId++, ...data });
+    rows.push(createRow({ id: nextId++, ...data }));
     showToast('Entry added');
   }
 
+  persistRows();
   closeModal();
   renderAll();
 }
@@ -1288,9 +2235,18 @@ function saveModal() {
 document.getElementById('modalOverlay').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
+document.getElementById('exportOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeExportModal();
+});
+document.getElementById('exportFormat').addEventListener('change', updateExportHint);
 
 // Escape key
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeExportModal();
+  }
+});
 
 // ─── TOAST ───────────────────────────────────────────────────────────────────
 function showToast(msg) {
@@ -1307,16 +2263,20 @@ function toggleTheme() {
   document.body.classList.toggle('light', isLight);
   document.getElementById('themeIcon').textContent = isLight ? '🌙' : '☀️';
   document.getElementById('themeLabel').textContent = isLight ? 'Dark Mode' : 'Light Mode';
-  localStorage.setItem('warrior-theme', isLight ? 'light' : 'dark');
+  if (!writeStorage(THEME_KEY, isLight ? 'light' : 'dark')) {
+    setSaveState('Browser save blocked', true);
+  }
 }
 
 // Load saved theme
 (function() {
-  const saved = localStorage.getItem('warrior-theme');
+  const saved = readStorage(THEME_KEY);
   if (saved === 'light') { isLight = false; toggleTheme(); }
 })();
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
+updateExportHint();
+syncSaveIndicator();
 renderAll();
 </script>
 </body>
